@@ -46,37 +46,37 @@ temps(6) = mean(run_11(:,5))+mean(run_11(:,6))/2;
 
 piston_disp = xlsread('MoStudy7C.xlsx');
 
-r_power = 7.75/2000;
-h = 10/1000;
+r_power = 7.75/2000; %power piston raduis (diameter in mm /2 /1000 = radius in m)
+h = 10/1000; % power piston max height (mm/1000 = m) unused
 
-piston_disp = piston_disp(:,2:3);
-
+piston_disp = piston_disp(:,2:3); % getting absolute power piston displacements
 heights = -(min(piston_disp(:,2)) - piston_disp(:,2))/1000;
 
-vol_power = @(height) pi*r_power*height;
-vol_main = 1.7267*10^-4; %[m^3]
-
+vol_power = @(height) pi*r_power^2*height; %vector of power piston volumes
+vol_main = 1.7267*10^-4; %main chamber volume [m^3]
 vol = vol_power(heights);
 
 vol_tot = vol + vol_main;
 
-start_index = 1511;
+%the '-225' below was just me messing around trying to fix the graphs and
+%it worked. The original numbers should be the proper place to start and
+%end the cycle but it isnt for some reason
+start_index = 1511-225;
+end_index = 3465-225; %indices for a full cycle from data
+total_cycle = end_index-start_index; %size of a cycle
 
-end_index = 3465;
-
-total_cycle = end_index-start_index;
-
-next = find((piston_disp(2:end,2) > (piston_disp(1,2) - 0.05)) & (piston_disp(2:end,2) < (piston_disp(1,2) + 0.05)));
+% used to find indices for motion study cycle
+%next = find((piston_disp(2:end,2) > (piston_disp(1,2) - 0.05)) & (piston_disp(2:end,2) < (piston_disp(1,2) + 0.05)));
 
 total_cycle_piston = 178;
-
 pressures = run_7(start_index:end_index,2);
-
 vol_tot = vol_tot(1:total_cycle_piston);
 
+% interp doesnt work on non-functions (i.e. doesnt work on cyclical plots)
 %vol_tot = interp1(piston_disp(1:total_cycle_piston,1),vol_tot,linspace(1,piston_disp(total_cycle_piston,1),1955));
 
+%found interparc online to interpolate cyclical functions
 vol_tot = interparc(1955,piston_disp(1:total_cycle_piston,1),vol_tot,'spline');
 
 figure
-plot(vol_tot(:,2),pressures*6894.76)
+plot(vol_tot(:,2),pressures*6894.76) %pressure psi -> Pa
