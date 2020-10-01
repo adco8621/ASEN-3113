@@ -63,6 +63,7 @@ vol_tot = vol + vol_main;
 %end the cycle but it isnt for some reason
 start_index = 1511-225;
 end_index = 3465-225; %indices for a full cycle from data
+
 total_cycle = end_index-start_index; %size of a cycle
 
 % used to find indices for motion study cycle
