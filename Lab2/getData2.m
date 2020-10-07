@@ -6,6 +6,8 @@ load('run_7')
 load('run_9')
 load('run_11')
 
+[T, a, P, rho] = atmoscoesa(1624);
+
 %% rpm calc
 
 % 7 degree diff
@@ -81,11 +83,30 @@ vol_tot = vol_tot(1:total_cycle_piston);
 %found interparc online to interpolate cyclical functions
 vol_tot7 = interparc(1955,piston_disp(1:total_cycle_piston,1),vol_tot,'spline');
 
+
+Vf7 = vol_tot7(1:end-10,2); %=======removing the overlap===========
+Vf7 = [Vf7; Vf7(1)];
+Pf7 = pressures(1:end-10)*6894.76 + P;
+Pf7 = [Pf7; Pf7(1)];
 figure
-plot(vol_tot7(:,2),pressures*6894.76) %pressure psi -> Pa
+plot(Vf7,Pf7) %pressure psi -> Pa
+
+Imin = find(Vf7 == min(Vf7));
+Imax = find(Vf7 == max(Vf7));
+
+Int1 = flip(1:Imin);
+Int2 = Imin:Imax;
+Int3 = flip(Imax:length(Vf7));
+%Wnet7 = abs(trapz(Vf7,Pf7))
+Win7 = trapz(Vf7(Int2),Pf7(Int2));
+Wout7 = trapz(Vf7(Int1),Pf7(Int1))+trapz(Vf7(Int3),Pf7(Int3));
+Wnet7 = Wout7-Win7
+
+%Wc = cumtrat
   
 q_in7 = trapz(run_7(:,1),48.*run_7(:,7)); % Joules
 
+efficiency7 = (Wnet7/q_in7)*100
 %% Run 9
 
 %the '-225' below was just me messing around trying to fix the graphs and
@@ -108,11 +129,26 @@ vol_tot = vol_tot(1:total_cycle_piston);
 %found interparc online to interpolate cyclical functions
 vol_tot9 = interparc(total_cycle+1,piston_disp(1:total_cycle_piston,1),vol_tot,'spline');
 
+Vf9 = vol_tot9(1:end-10,2); %=======removing the overlap===========
+Vf9 = [Vf9; Vf9(1)];
+Pf9 = pressures(1:end-10)*6894.76 + P;
+Pf9 = [Pf9; Pf9(1)];
 figure
-plot(vol_tot9(:,2),pressures*6894.76) %pressure psi -> Pa
+plot(Vf9,Pf9) %pressure psi -> Pa
+
+Imin = find(Vf9 == min(Vf9));
+Imax = find(Vf9 == max(Vf9));
+Int1 = flip(1:Imin);
+Int2 = Imin:Imax;
+Int3 = flip(Imax:length(Vf9));
+%Wnet7 = abs(trapz(Vf7,Pf7))
+Wout9 = trapz(Vf9(Int2),Pf9(Int2));
+Win9 = trapz(Vf9(Int1),Pf9(Int1))+trapz(Vf9(Int3),Pf9(Int3));
+Wnet9 = Wout9-Win9
 
 q_in9 = trapz(run_9(:,1),48.*run_9(:,7)); % Joules
 
+efficiency9 = (Wnet9/q_in9)*100
 %% Run 11
 
 %the '-225' below was just me messing around trying to fix the graphs and
@@ -135,8 +171,24 @@ vol_tot = vol_tot(1:total_cycle_piston);
 %found interparc online to interpolate cyclical functions
 vol_tot11 = interparc(total_cycle+1,piston_disp(1:total_cycle_piston,1),vol_tot,'spline');
 
-figure
-plot(vol_tot11(:,2),pressures*6894.76) %pressure psi -> Pa
 
+Vf11 = vol_tot11(1:end-10,2); %=======removing the overlap===========
+Vf11 = [Vf11; Vf11(1)];
+Pf11 = pressures(1:end-10)*6894.76 + P;
+Pf11 = [Pf11; Pf11(1)];
+figure
+plot(Vf11,Pf11) %pressure psi -> Pa
+
+Imin = find(Vf11 == min(Vf11));
+Imax = find(Vf11 == max(Vf11));
+Int1 = flip(1:Imin);
+Int2 = Imin:Imax;
+Int3 = flip(Imax:length(Vf11));
+%Wnet7 = abs(trapz(Vf7,Pf7))
+Wout11 = trapz(Vf11(Int2),Pf11(Int2));
+Win11 = trapz(Vf11(Int1),Pf11(Int1))+trapz(Vf11(Int3),Pf11(Int3));
+Wnet11 = Wout11-Win11
 
 q_in11 = trapz(run_11(:,1),48.*run_11(:,7)); % Joules
+
+efficiency11 = (Wnet11/q_in11)*100
