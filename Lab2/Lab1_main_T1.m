@@ -58,7 +58,7 @@ thermalEfficiency11 = (1 - (tempLow11 / tempHigh11))*100;
 
 piston_disp = xlsread('MoStudy7C.xlsx');
 
-r_power = 7.75/2000; %power piston raduis (diameter in mm /2 /1000 = radius in m)
+r_power = 15.5/2000; %power piston raduis (diameter in mm /2 /1000 = radius in m)
 h = 10/1000; % power piston max height (mm/1000 = m) unused
 
 piston_disp = piston_disp(:,2:3); % getting absolute power piston displacements
@@ -76,8 +76,8 @@ vol_tot = vol_total(1:total_cycle_piston);
 %% Run 7
 
 %indices for a full cycle from run_7 
-start_index7 = 1511-225;
-end_index7 = 3465-225;
+start_index7 = 1511;
+end_index7 = 3465;
 
 % pressures on the index of that cycle
 pressures7 = pressures7(start_index7:end_index7);
@@ -121,8 +121,8 @@ fprintf('Net work for 7 degree temp difference is %.6f \nEfficiency for 7 degree
 %% Run 9
 
 % Indexing the cycle
-start_index9 = 911-105;
-end_index9 = 2143-105;
+start_index9 = 911;
+end_index9 = 2143;
 
 % pressures on the index of that cycle
 pressures9 = pressures9(start_index9:end_index9);
@@ -164,8 +164,8 @@ fprintf('Net work for 9 degree temp difference is %.6f \nEfficiency for 9 degree
 
 %% Run 11
 % Finding the index of one cycle
-start_index11 = 507-70;
-end_index11 = 1452-70;
+start_index11 = 507;
+end_index11 = 1452;
 
 % pressures on the index of that cycle
 pressures11 = pressures11(start_index11:end_index11);
