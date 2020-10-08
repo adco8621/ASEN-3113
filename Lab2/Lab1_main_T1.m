@@ -106,6 +106,7 @@ topHalf7 = [topHalf7(1466:end,:);topHalf7(1:485,:)];
 % Work under top half of curve
 workOut7 = polyarea([topHalf7(1,1);topHalf7(:,1);topHalf7(end,1)], [0;topHalf7(:,2);0]);
 
+
 % Work net and work in
 workNet7 = polyarea(vol_tot7(1:end-5,2),pressures7(1:end-5));
 wIn7 = workOut7-workNet7;
@@ -141,12 +142,9 @@ title('P-V Diagram for 9 Degree Temperature Difference')
 [maxVol,idxMax] = max(vol_tot9(:,2));
 
 % getting top half of curve for work out calculation
-topHalf9(1:idxMin-1,1) = vol_tot9(1:idxMin-1,2);
-topHalf9(idxMax+1:length(vol_tot9),1) = vol_tot9(idxMax+1:end,2);
-topHalf9(1:idxMin-1,2) = pressures9(1:idxMin-1);
-topHalf9(idxMax+1:length(vol_tot9),2) = pressures9(idxMax+1:end);
+topHalf9(1:(idxMax-idxMin+1),1) = vol_tot9(idxMax:-1:idxMin,2);
+topHalf9(1:(idxMax-idxMin+1),2) = pressures9(idxMax:-1:idxMin);
 topHalf9 = flip(topHalf9);
-topHalf9 = [topHalf9(1466:end,:);topHalf9(1:485,:)];
 
 % Work under top half of curve
 workOut9 = polyarea([topHalf9(1,1);topHalf9(:,1);topHalf9(end,1)], [0;topHalf9(:,2);0]);
@@ -184,12 +182,9 @@ title('P-V Diagram for 11 Degree Temperature Difference')
 [maxVol,idxMax] = max(vol_tot11(:,2));
 
 % getting top half of curve for work out calculation
-topHalf11(1:idxMin-1,1) = vol_tot11(1:idxMin-1,2);
-topHalf11(idxMax+1:length(vol_tot11),1) = vol_tot11(idxMax+1:end,2);
-topHalf11(1:idxMin-1,2) = pressures11(1:idxMin-1);
-topHalf11(idxMax+1:length(vol_tot11),2) = pressures11(idxMax+1:end);
+topHalf11(1:(idxMax-idxMin+1),1) = vol_tot11(idxMin:idxMax,2);
+topHalf11(1:(idxMax-idxMin+1),2) = pressures11(idxMin:idxMax);
 topHalf11 = flip(topHalf11);
-topHalf11 = [topHalf11(1466:end,:);topHalf11(1:485,:)];
 
 % Work under top half of curve
 workOut11 = polyarea([topHalf11(1,1);topHalf11(:,1);topHalf11(end,1)], [0;topHalf11(:,2);0]);
