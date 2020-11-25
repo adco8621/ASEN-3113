@@ -199,3 +199,17 @@ qIn11 = trapz(run_11(start_index11:end_index11,1),48.*run_11(start_index11:end_i
 % Thermal Efficiency
 efficiency11 = (workNet11/qIn11)*100;
 fprintf('Net work for 11 degree temp difference is %.6f \nEfficiency for 11 degree temp difference is %.4f%%\n',workNet11,efficiency11)
+
+
+%% Ideal thermal efficiency
+R = 287; %J/kg*K
+Cv = 718; %J/kg*K
+
+[minVol,idxMin]= min(vol_tot9(:,2));
+[maxVol,idxMax] = max(vol_tot9(:,2));
+Vmax = vol_tot9(idxMax,2);
+Vmin = vol_tot9(idxMin,2);
+
+ideal7 = (R*log(Vmax/Vmin)*(tempHigh7-tempLow7))/(Cv*(tempHigh7-tempLow7)+R*tempHigh7*(Vmax/Vmin))*100;
+ideal9 = (R*log(Vmax/Vmin)*(tempHigh9-tempLow9))/(Cv*(tempHigh9-tempLow9)+R*tempHigh9*(Vmax/Vmin))*100;
+ideal11 = (R*log(Vmax/Vmin)*(tempHigh11-tempLow11))/(Cv*(tempHigh11-tempLow11)+R*tempHigh11*(Vmax/Vmin))*100;
